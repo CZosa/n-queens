@@ -79,14 +79,14 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      var currRow = this.get(rowIndex)|| rowIndex;
+      var currRow = this.rows()[rowIndex];      //get(rowIndex);
       var count = 0;
       for (var i = 0; i < currRow.length; i++){
-        if(currRow[i] === 1) {
+        if(currRow[i]) {
           count++;
         }
       }
-      return (count === 0) ? false : true;
+      return (count > 1) ? true : false;
     },
 
     // test if any rows on this board contain conflicts
@@ -123,7 +123,7 @@
           return true;
         }
       }
-      return false; // fixme
+      return false; 
     },
 
 
@@ -133,12 +133,53 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var table = this.rows();
+      var colDiagIndex = majorDiagonalColumnIndexAtFirstRow; 
+      var diagonal = [];
+     
+      
+      var buildDiagonal = function(num){
+        var fixnum = colDiagIndex;
+        var rowN = 0;
+        var spot = function(num){
+          if(rowN < table.length-fixnum){
+          diagonal.push(table[rowN][num])
+          rowN++;
+          num++;
+          spot(num)
+          }
+        }
+        spot(num);
+       }
+        
+      buildDiagonal(colDiagIndex)
+        
+      var count = 0;
+      for (var i = 0; i < diagonal.length; i++){
+        if(diagonal[i] === 1) {
+          count++;
+        }
+      }
+      return (count > 1) ? true : false;
+     
+     
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      
+      var table = this.rows();
+      
+      for(var i = 0; i < table.length ; i++) {
+        // console.log('this is conflict', hasMajorDiagonalConflictAt(i)); //false
+        if(this.hasMajorDiagonalConflictAt(i) === false) {
+          console.log("should be true");
+          return   true;
+        }
+        
       return false; // fixme
+      }
+      
     },
 
 

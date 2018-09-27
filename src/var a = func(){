@@ -1,0 +1,15 @@
+var a = function(){
+    var rowN = 0;
+    var diagonal = [];
+      var spot = function(clNum){
+        if(rowN > table.length){return
+        }
+        
+        
+        diagonal.push(table[rowN][clNum])
+        rowN++:
+        
+        spot(clNum++)
+      }
+      spot(1)
+}
